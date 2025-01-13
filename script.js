@@ -1,15 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Prompt user for first name
-    var user = prompt("Write your first name:");
-    if (user === null || user === "") {
-        user = prompt("Please write your first name:");
-    } else if (user < 2) {
-        user = prompt("Please write your first name:");
-    } else if (user !== null) {
-        document.title = "Happy Birthday " + user + "!";
-        document.querySelector("h1").textContent = "Happy Birthday " + user + "!";
-    }
-
     // Constant variables
     const mic = document.getElementById("mic");
     const cursor = document.getElementById("cursor");
@@ -31,17 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function startBlowDetection() {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(function (stream) {
-                // Create audio context
                 audioContext = new AudioContext();
                 micStream = stream;
                 const microphone = audioContext.createMediaStreamSource(stream);
 
-                // Initialize analyser
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 256;
                 microphone.connect(analyser);
 
-                // Execute listenForBlow()
                 listenForBlow();
             })
             .catch(function (err) {
@@ -74,33 +60,27 @@ document.addEventListener("DOMContentLoaded", function () {
         function detectBlow() {
             analyser.getByteFrequencyData(data);
 
-            // Calculate the average amplitude
             let s = 0;
             for (let i = 0; i < buffer; i++) {
                 s += data[i];
             }
             const averageAmplitude = s / buffer;
 
-            // Check if averageAmplitude is greater than blowThreshold
             if (averageAmplitude > blowThreshold) {
-                // Decrease flame opacity
                 flameOpacity -= 0.05;
                 if (flameOpacity < 0) {
                     flameOpacity = 0;
                 }
                 flame.style.opacity = flameOpacity;
-                checkFlameOut(); // Check if prize should be revealed
+                checkFlameOut();
             }
 
-            // Schedule next detection loop
             requestAnimationFrame(detectBlow);
         }
 
-        // Detection loop
         detectBlow();
     }
 
-    // Listen for the mic button when clicked, initialize the function to handle blow detection
     mic.addEventListener("click", function () {
         micInstructions.style.display = "block";
         cursorInstructions.style.display = "none";
@@ -108,32 +88,27 @@ document.addEventListener("DOMContentLoaded", function () {
         startBlowDetection();
     });
 
-    // Listen for the cursor button when clicked, initialize the function to handle cursor movement
     cursor.addEventListener("click", function () {
         cursorInstructions.style.display = "block";
         micInstructions.style.display = "none";
         instructionsContainer.style.display = "none";
 
-        // Variables for cursor movement
         let prevX = null;
         let prevY = null;
         let prevTime = null;
 
         const flameRadius = 500;
 
-        // Track cursor movement
         document.addEventListener("mousemove", function (event) {
             const x = event.clientX;
             const y = event.clientY;
 
-            // Check if the cursor is inside the flame radius
             const inFlameRadius =
                 x >= flame.offsetLeft - flameRadius &&
                 x <= flame.offsetLeft + flame.offsetWidth + flameRadius &&
                 y >= flame.offsetTop - flameRadius &&
                 y <= flame.offsetTop + flame.offsetHeight + flameRadius;
 
-            // Check if the cursor is inside the flame radius
             if (inFlameRadius) {
                 let speed = 0;
                 if (prevX !== null && prevY !== null && prevTime !== null) {
@@ -141,23 +116,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     speed = Math.sqrt(Math.pow(x - prevX, 2) + Math.pow(y - prevY, 2)) / time;
                 }
 
-                // Decrease flame opacity based on cursor speed
                 flameOpacity -= speed * 0.01;
                 if (flameOpacity < 0) {
                     flameOpacity = 0;
                 }
                 flame.style.opacity = flameOpacity;
-                checkFlameOut(); // Check if prize should be revealed
+                checkFlameOut();
             }
 
-            // Update previous cursor position & time
             prevX = x;
             prevY = y;
             prevTime = performance.now();
         });
     });
 
-    // Function to handle unload of the page and close the audio context
     window.addEventListener("beforeunload", function () {
         if (audioContext) {
             audioContext.close();
