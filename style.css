@@ -4,25 +4,21 @@ body{
   margin:0;
   padding:0;
 }
-
 h1, h3{
   text-align:center;
   color:#000000;
 }
-
 .instructions-container{
   margin: 20px auto;
-  color:#000000;
+  color::#000000;;
   display:flex;
   flex-direction:column;
   align-items:center;
   text-align:center;
 }
-
 .instructions-container p {
   margin:0;
 }
-
 .instructions-container button {
   padding:10px 20px;
   font-size:16px;
@@ -33,27 +29,22 @@ h1, h3{
   cursor: pointer;
   margin-top: 10px;
 }
-
 .instructions-container button:hover {
   background-color:#2f2f2f;
 }
-
 #instructions{
   margin: 20px auto;
   text-align:center;
 }
-
 #micInstructions, curorInstructiosns{
   color:whitesmoke;
 }
-
 .birthday-cake-container{
   display:flex;
   justify-content:center;
   align-items:flex-end;
   margin-top: 500px;
 }
-
 #birthday-cake{
   width:500px;
   height:300px;
@@ -66,7 +57,6 @@ h1, h3{
   z-index:0;
   top:-50px;
 }
-
 #icing{
   width:500px;
   height:100px;
@@ -78,16 +68,13 @@ h1, h3{
   z-index: 1; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
 .birthday-cake-top{
   width:500px;
   height:300px;
   position: absolute;
   top: 0;
   z-index:2;
-  background-color:#ffc0cb; /* Changed to pink */
 }
-
 .birthday-cake-top #candle {
     background-color: #FFD700;
     width: 50px;
@@ -102,7 +89,6 @@ h1, h3{
     background-origin: border-box;
     background-clip: content-box, border-box;
 }
-
 .birthday-cake-top #flame {
     position: absolute;
     background-color: orange;
@@ -120,7 +106,6 @@ h1, h3{
     transform-origin: 50% 90%;
     animation: flicker 1s ease-in-out alternate infinite;
 }
-
 @keyframes flicker {
     0% {
         transform: skewX(5deg);
@@ -157,4 +142,13 @@ h1, h3{
             0 0 20px rgba(orange, 0.5),
             0 0 60px rgba(orange, 0.5),
             0 0 80px rgba(orange, 0.5) }
+    }
+.gift-container {
+            text-align: center;
+            margin-top: 50px;
+}
+ 
+#gift img {
+            cursor: pointer;
+            transition: opacity 0.5s;
 }
